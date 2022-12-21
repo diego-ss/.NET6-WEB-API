@@ -12,18 +12,24 @@ app.MapGet("/AddHeader", (HttpResponse response) => {
 
 app.MapPost("/products", (Product product) => {
     ProductRepository.Add(product);
-    return product;
+    return Results.Created($"/products/{product.Code}", product.Code);
 });
 
 
 app.MapGet("/products/{code}", ([FromRoute] string code) => {
     var product = ProductRepository.GetBy(code);
-    return product;
+
+    if(product != null)
+        return Results.Ok(product);
+
+    return Results.NotFound(code);
 });
 
 app.MapPut("/products", (Product product) => {
     var p = ProductRepository.GetBy(product.Code);
     p.Name = product.Name;
+
+    return Results.Ok();
 });
 
 app.MapDelete("/products/{code}", ([FromRoute] string code) => {
@@ -31,6 +37,8 @@ app.MapDelete("/products/{code}", ([FromRoute] string code) => {
     
     if(product != null)
         ProductRepository.Remove(product);
+
+    return Results.Ok();
 });
 
 app.Run();
