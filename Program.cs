@@ -10,31 +10,23 @@ app.MapGet("/AddHeader", (HttpResponse response) => {
     return new {Texto = "Olá, olhe os headers"};
     });
 
-app.MapPost("/SaveProduct", (Product product) => {
+app.MapPost("/products", (Product product) => {
     ProductRepository.Add(product);
     return product;
 });
 
-app.MapGet("/getproduct", ([FromQuery] string dateStart, [FromQuery] string dateEnd) => {
-    return dateStart + " - " + dateEnd;
-});
 
-app.MapGet("/getproduct/{code}", ([FromRoute] string code) => {
+app.MapGet("/products/{code}", ([FromRoute] string code) => {
     var product = ProductRepository.GetBy(code);
     return product;
 });
 
-app.MapGet("/getproductinheader", (HttpRequest request) => {
-    var headers = request.Headers;
-    return headers["product-code"].ToString();
-});
-
-app.MapPut("/editproduct", (Product product) => {
+app.MapPut("/products", (Product product) => {
     var p = ProductRepository.GetBy(product.Code);
     p.Name = product.Name;
 });
 
-app.MapDelete("/deleteproduct/{code}", ([FromRoute] string code) => {
+app.MapDelete("/products/{code}", ([FromRoute] string code) => {
     var product = ProductRepository.GetBy(code);
     
     if(product != null)
