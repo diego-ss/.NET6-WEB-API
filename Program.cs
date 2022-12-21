@@ -29,6 +29,11 @@ app.MapGet("/getproductinheader", (HttpRequest request) => {
     return headers["product-code"].ToString();
 });
 
+app.MapPut("/editproduct", (Product product) => {
+    var p = ProductRepository.GetBy(product.Code);
+    p.Name = product.Name;
+});
+
 app.Run();
 
 public class Product {
@@ -46,7 +51,7 @@ public static class ProductRepository {
         Products.Add(product);
     }
 
-    public static Product GetBy(string code){
+    public static Product? GetBy(string code){
         return Products.FirstOrDefault(p => p.Code == code);
     }
 }
