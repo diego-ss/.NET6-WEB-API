@@ -20,3 +20,4 @@ F:\dev\udemy\apidotnet6\obj\Debug\net6.0\refint\apidotnet6.dll
 F:\dev\udemy\apidotnet6\obj\Debug\net6.0\apidotnet6.pdb
 F:\dev\udemy\apidotnet6\obj\Debug\net6.0\apidotnet6.genruntimeconfig.cache
 F:\dev\udemy\apidotnet6\obj\Debug\net6.0\ref\apidotnet6.dll
+F:\dev\udemy\apidotnet6\bin\Debug\net6.0\appsettings.Hom.json

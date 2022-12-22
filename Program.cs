@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
+ProductRepository.Init(app.Configuration);
 
 app.MapGet("/", () => "Hello World!");
 app.MapPost("/", () => new { Name = "Diego Sousa", Age = "25"});
@@ -41,6 +42,12 @@ app.MapDelete("/products/{code}", ([FromRoute] string code) => {
     return Results.Ok();
 });
 
+if(app.Environment.IsEnvironment("Hom")){
+    app.MapGet("/configuration/{configName}", (IConfiguration configuration, [FromRoute] string configName) => {
+        return Results.Ok(configuration[configName]);
+    });
+}
+
 app.Run();
 
 public class Product {
@@ -49,7 +56,12 @@ public class Product {
 }
 
 public static class ProductRepository {
-    private static List<Product> Products { get;set; }
+    private static List<Product> Products { get;set; }  = new List<Product>();
+
+    public static void Init(IConfiguration configuration){
+        var products = configuration.GetSection("Products").Get<List<Product>>();
+        Products = products;
+    }
 
     public static void Add(Product product) {
         if(Products == null)
