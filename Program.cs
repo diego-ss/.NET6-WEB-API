@@ -7,18 +7,10 @@ builder.Services.AddDbContext<AppContext>();
 var app = builder.Build();
 ProductRepository.Init(app.Configuration);
 
-app.MapGet("/", () => "Hello World!");
-app.MapPost("/", () => new { Name = "Diego Sousa", Age = "25"});
-app.MapGet("/AddHeader", (HttpResponse response) => {
-    response.Headers.Add("Teste", "Diego Sousa");
-    return new {Texto = "Olá, olhe os headers"};
-    });
-
 app.MapPost("/products", (Product product) => {
     ProductRepository.Add(product);
     return Results.Created($"/products/{product.Code}", product.Code);
 });
-
 
 app.MapGet("/products/{code}", ([FromRoute] string code) => {
     var product = ProductRepository.GetBy(code);
@@ -54,6 +46,7 @@ if(app.Environment.IsEnvironment("Hom")){
 app.Run();
 
 public class Product {
+    public int Id {get;set;}
     public string Name { get; set; }
     public string Code { get; set; }
 }
