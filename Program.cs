@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContext<AppContext>();
+
 var app = builder.Build();
 ProductRepository.Init(app.Configuration);
 
