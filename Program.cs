@@ -58,6 +58,13 @@ public class Product {
     
     [MaxLength(500)]
     public string Description { get; set; }
+
+    public Category Category { get; set; }
+}
+
+public class Category {
+    public int Id { get; set;}
+    public string Name { get; set; }
 }
 
 public static class ProductRepository {
@@ -97,5 +104,5 @@ public class AppContext : DbContext {
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder options) 
-        => options.UseSqlServer("Server=localhost;Database=Products;User Id=sa;Password=<Diego!1996>;MultipleActiveResultSets=true;Encrypt=YES;TrustServerCertificate=YES");
+        => options.UseSqlServer("Server=localhost;Database=Products;User Id=sa;Password=xxx;MultipleActiveResultSets=true;Encrypt=YES;TrustServerCertificate=YES");
 }
