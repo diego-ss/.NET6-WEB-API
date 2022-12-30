@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -47,8 +48,16 @@ app.Run();
 
 public class Product {
     public int Id {get;set;}
+
+    [MaxLength(120)]
     public string Name { get; set; }
+
+    [MaxLength(20)]
+    [Required]
     public string Code { get; set; }
+    
+    [MaxLength(500)]
+    public string Description { get; set; }
 }
 
 public static class ProductRepository {
@@ -78,6 +87,14 @@ public static class ProductRepository {
 public class AppContext : DbContext {
     
     public DbSet<Product> Products { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder builder){
+        builder.Entity<Product>()
+            .Property(p=>p.Description).HasMaxLength(500).IsRequired(false);
+
+        builder.Entity<Product>().Property(p=>p.Name).IsRequired();
+        builder.Entity<Product>().Property(p=>p.Code).IsRequired();
+    }
 
     protected override void OnConfiguring(DbContextOptionsBuilder options) 
         => options.UseSqlServer("Server=localhost;Database=Products;User Id=sa;Password=<Diego!1996>;MultipleActiveResultSets=true;Encrypt=YES;TrustServerCertificate=YES");
